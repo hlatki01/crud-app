@@ -1,0 +1,48 @@
+<div class="container-toolbar">
+	<mat-form-field appearance="outline">
+		<mat-label>Search</mat-label>
+		<input matInput (keyup)="filter($event.target.value)" placeholder="Descreva o dado que deseja realizar a pesquisa">
+	</mat-form-field>
+		<form #f="ngForm" (ngSubmit)="dateFiltering(f)" novalidate>
+			<mat-form-field appearance="outline">
+				<mat-label>Date Start</mat-label>
+				<input matInput name="startDate" ngModel #startDate="ngModel" placeholder="Start Date">
+			</mat-form-field>
+			<mat-form-field appearance="outline">
+				<mat-label>Date End</mat-label>
+				<input matInput name="endDate" ngModel #endDate="ngModel" placeholder="End Date">
+			</mat-form-field>
+		<button mat-raised-button color="primary">Date Filter</button>
+		</form>
+</div>
+<div class="div-table mat-elevation-z8">
+	<table mat-table [dataSource]="dataSource">
+		<ng-container matColumnDef="account.number">
+			<th mat-header-cell *matHeaderCellDef>account.number</th>
+			<td mat-cell *matCellDef="let element">{{ element.account.number }}</td>
+		</ng-container>
+		<ng-container matColumnDef="balance">
+			<th mat-header-cell *matHeaderCellDef>balance</th>
+			<td mat-cell *matCellDef="let element">{{ element.balance }}</td>
+		</ng-container>
+		<ng-container matColumnDef="value_date">
+			<th mat-header-cell *matHeaderCellDef>value_date</th>
+			<td mat-cell *matCellDef="let element">{{ element.value_date }}</td>
+		</ng-container>
+		<ng-container matColumnDef="account.name">
+			<th mat-header-cell *matHeaderCellDef>account.name</th>
+			<td mat-cell *matCellDef="let element">{{ element.account.name }}</td>
+		</ng-container>
+		<ng-container matColumnDef="account.category">
+			<th mat-header-cell *matHeaderCellDef>account.category</th>
+			<td mat-cell *matCellDef="let element">{{ element.account.category }}</td>
+		</ng-container>
+		<ng-container matColumnDef="account.institution.name">
+			<th mat-header-cell *matHeaderCellDef>account.institution.name</th>
+			<td mat-cell *matCellDef="let element">{{ element.account.institution.name }}</td>
+		</ng-container>
+		<tr mat-header-row *matHeaderRowDef="columns;"></tr>
+		<tr mat-row *matRowDef="let row; columns: columns;"></tr>
+	</table>
+	<mat-paginator [pageSizeOptions]="[10,20,50,100]" showFirstLastButtons></mat-paginator>
+</div>
