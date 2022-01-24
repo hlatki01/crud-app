@@ -29,15 +29,9 @@
 		"uuid": "^8.3.0",
 		"winston": "^3.3.3"
 	},
-	"nodemonConfig": {
-		"watch": "src/**/*.ts",
-		"execMap": {
-			"ts": "ts-node"
-		},
-		"delay": 2500
-	},
 	"scripts": {
 		"start": "ts-node src/index.ts",
+		"pm2": "pm2 start ts-node src/index.ts",
 		"server": "nodemon --watch \"src/**/*.ts\" --exec \"ts-node\" src/index.ts"
 	}
 }
