@@ -9,6 +9,7 @@ import { QuestionController } from './controller/QuestionController';
 import { RequestOrderController } from './controller/RequestOrderController';
 import { RequestOrderAnswerController } from './controller/RequestOrderAnswerController';
 import { BelvoController } from './controller/BelvoController';
+import { RocketChatController } from './controller/RocketChatController';
 
 export const Routes = [
     { method: "get", route: "/users", controller: UserController, action: "all" },
@@ -25,6 +26,7 @@ export const Routes = [
     { method: "post", route: "/belvo/:id/incomes", controller: BelvoController, action: "incomes" },
     { method: "post", route: "/belvo/:id/owners", controller: BelvoController, action: "owners" },
 
+    { method: "get", route: "/rocket.checkuser", controller: RocketChatController, action: "checkIfUserExists" },
 
     { method: "get", route: "/category", controller: CategoryController, action: "all" },
     { method: "get", route: "/category/:id/subcategorys", controller: CategoryController, action: "getAllSubCategorys" },

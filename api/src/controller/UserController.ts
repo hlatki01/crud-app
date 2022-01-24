@@ -5,18 +5,18 @@ import { sign } from 'jsonwebtoken';
 import config from "../configuration/config";
 import * as md5 from 'md5';
 import { FileHelper } from '../helpers/fileHelper';
+const axios = require('axios');
+
+
 
 import Client from 'belvo';
 import { json } from 'stream/consumers';
 
 const client = new Client(
-	'3a4c7f33-e91f-49c2-917d-cfafd1723963',
-	'KtwR#K9aZ08wh-LC*xyL#WwgACXmC*COw2DUuvf@z-smRrARiDu4t1RkdFkauDnq',
-	'sandbox'
+	config.belvoAuth.token,
+	config.belvoAuth.secret,
+	config.belvoAuth.env
 	);
-
-
-
 
 export class UserController extends BaseController<User> {
 
@@ -27,17 +27,23 @@ export class UserController extends BaseController<User> {
 	async auth(request: Request) {
 
 		let { email, password } = request.body;
+
+		let pwd = request.body.password
 		if (!email || !password)
 			return { status: 400, message: 'Informe o email e a senha para efetuar o login' };
 
 		let user = await this.repository.findOne({ email: email, password: md5(password) });
-		console.log(user)
+
+
 		if (user) {
+			let createRefreshToken = await this.checkIfUserExists(request, user, pwd)
+
 			let _payload = {
 				uid: user.uid,
 				name: user.name,
 				photo: user.photo,
 				email: user.email,
+				rocketToken: createRefreshToken.data.authToken
 			}
 			return {
 				status: 200,
@@ -53,6 +59,66 @@ export class UserController extends BaseController<User> {
 			return { status: 404, message: 'E-mail ou senha inválidos' }
 	}
 
+	async checkIfUserExists(request: Request, user, pwd) {
+
+		let username =  user.name.toLowerCase().split(" ")
+		let sanitizedUserName = username[0] + "." + username[username.length -1]
+	
+		try {
+			let data =  {
+				email: user.email,
+				name: user.name,
+				password: pwd,
+				username: sanitizedUserName
+			  }		  
+			let result = await axios.post(`${config.rocketAuth.serverUri}/api/v1/users.create`, data, {
+			  headers: {
+				'X-Auth-Token': config.rocketAuth.token,
+				'X-User-Id': config.rocketAuth.userId,
+				'Content-type': 'application/json'
+			  }
+			})		  
+			if(result.status === 200){
+				return this.createRefreshToken(request, result.data.user.username)
+			}
+  
+  
+		  }
+		  catch (err) {
+			console.log('err', err.response.status);
+			if(err.response.status === 400){
+				return this.createRefreshToken(request, sanitizedUserName)
+			}
+
+		  }
+
+	}
+
+	async createRefreshToken(request: Request, user) {	
+		try {
+			let data =  {
+				username: user
+			  }		  
+			let result = await axios.post(`${config.rocketAuth.serverUri}/api/v1/users.createToken`, data, {
+			  headers: {
+				'X-Auth-Token': config.rocketAuth.token,
+				'X-User-Id': config.rocketAuth.userId,
+				'Content-type': 'application/json'
+			  }
+			})
+
+			if(result.status === 200){
+				return result.data				
+			}  
+		  }
+		  catch (err) {
+			console.log('err', err);
+		  }
+
+
+	}
+
+	
 	async getToken(request: Request) {
 
 		return client.connect()
@@ -65,8 +131,6 @@ export class UserController extends BaseController<User> {
                 console.error(error)
             });
 		})
-
-
 	}
 
 	async createUser(request: Request) {
@@ -87,8 +151,6 @@ export class UserController extends BaseController<User> {
 		let checkEmail = await this.repository.findOne({ email: email });
 		if (checkEmail)
 			return { status: 400, errors: ['Já existe um cadastro com esse email.'] }
-
-
 
 		if (_user.photo) {
 			let pictureCreatedResult = await FileHelper.writePicture(_user.photo)
@@ -112,6 +174,10 @@ export class UserController extends BaseController<User> {
 		let _user = <User>request.body;
 		super.isRequired(_user.name, 'O nome do usuário é obrigatório');
 		super.isRequired(_user.photo, 'A foto do usuário é obrigatória');
+
+		_user.active = true
+		_user.deleted = false
+
 
 		if (_user.photo) {
 			let pictureCreatedResult = await FileHelper.writePicture(_user.photo)

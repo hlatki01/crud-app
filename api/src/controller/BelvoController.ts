@@ -1,13 +1,13 @@
 import { Response, Request } from 'express';
 import Client from 'belvo';
+import config from '../configuration/config';
 
 
 const client = new Client(
-	'3a4c7f33-e91f-49c2-917d-cfafd1723963',
-	'KtwR#K9aZ08wh-LC*xyL#WwgACXmC*COw2DUuvf@z-smRrARiDu4t1RkdFkauDnq',
-	'sandbox'
+	config.belvoAuth.token,
+	config.belvoAuth.secret,
+	config.belvoAuth.env
 	);
-
 
 export class BelvoController {
 

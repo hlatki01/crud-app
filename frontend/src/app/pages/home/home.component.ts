@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { BelvoService } from 'src/app/services/belvo.service';
 
+
 const xAuthToken = localStorage.getItem('bankconnector:token');
 const belvoToken = localStorage.getItem('bankconnector:link');
 
@@ -26,10 +27,12 @@ export class HomeComponent implements OnInit {
 	) { }
 
   ngOnInit() {
+    /*
     if(!belvoToken)
 		  this.loadScript('https://cdn.belvo.io/belvo-widget-1-stable.js');
     else
     this.router.navigateByUrl('/accounts');
+    */
 	}
 
   async createWidget() {

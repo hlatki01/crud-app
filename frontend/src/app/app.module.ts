@@ -43,13 +43,13 @@ import { ServiceProvidersComponent } from './pages/service-providers/service-pro
 import { ServiceProviderComponent } from './pages/service-provider/service-provider.component';
 import { UsersComponent } from './pages/users/users.component';
 import { UserComponent } from './pages/user/user.component';
-import { BelvoComponent } from './belvo/belvo.component';
 import { AccountsComponent } from './pages/accounts/accounts.component';
 import { OwnersComponent } from './pages/owners/owners.component';
 import { BalancesComponent } from './pages/balances/balances.component';
 import { TransactionsComponent } from './pages/transactions/transactions.component';
 import { IncomesComponent } from './pages/incomes/incomes.component';
-import { NgxMaskModule, IConfig } from 'ngx-mask'
+import { NgxMaskModule, IConfig } from 'ngx-mask';
+import { ChatComponent } from './pages/chat/chat.component'
 
 
 @NgModule({
@@ -73,12 +73,12 @@ import { NgxMaskModule, IConfig } from 'ngx-mask'
     ServiceProviderComponent,
     UsersComponent,
     UserComponent,
-    BelvoComponent,
     AccountsComponent,
     OwnersComponent,
     BalancesComponent,
     TransactionsComponent,
-    IncomesComponent
+    IncomesComponent,
+    ChatComponent
   ],
   imports: [
     BrowserModule,

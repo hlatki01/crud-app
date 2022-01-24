@@ -20,12 +20,14 @@ import { OwnersComponent } from './pages/owners/owners.component';
 import { BalancesComponent } from './pages/balances/balances.component';
 import { TransactionsComponent } from './pages/transactions/transactions.component';
 import { IncomesComponent } from './pages/incomes/incomes.component';
+import { ChatComponent } from './pages/chat/chat.component';
 
 const routes: Routes = [
   { path: '', pathMatch: 'full', redirectTo: '/home' },
   { path: 'login', component: LoginComponent },
   { path: 'home', component: HomeComponent, canActivate: [AdminGuard] },
   { path: 'accounts', component: AccountsComponent, canActivate: [AdminGuard] },
+  { path: 'chat', component: ChatComponent, canActivate: [AdminGuard] },
   { path: 'owners', component: OwnersComponent, canActivate: [AdminGuard] },
   { path: 'balances', component: BalancesComponent, canActivate: [AdminGuard] },
   { path: 'transactions', component: TransactionsComponent, canActivate: [AdminGuard] },

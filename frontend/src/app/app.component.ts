@@ -32,10 +32,11 @@ export class AppComponent implements OnInit, OnDestroy {
 			this.isLogged = logged;
 		});
 
-    if(!belvoToken)
+    /*if(!belvoToken)
       this.router.navigateByUrl('/home');
     else
       this.router.navigateByUrl('/accounts');
+      */
 
 
 		this.menu.push({
@@ -46,6 +47,7 @@ export class AppComponent implements OnInit, OnDestroy {
 				{ icon: 'bookmark', label: 'Owners', url: '/owners' },
 				{ icon: 'bookmark', label: 'Balances', url: '/balances' },
 				{ icon: 'bookmark', label: 'Incomes', url: '/incomes' },
+				{ icon: 'bookmark', label: 'Chat', url: '/chat' },
 			]
 		});
 

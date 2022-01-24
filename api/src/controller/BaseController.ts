@@ -67,6 +67,8 @@ export abstract class BaseController<T> extends BaseNotification {
     }    
 
     if (this.valid()){
+      console.log('aqui');
+      
       return await this._repository.save(model);
     }
     else

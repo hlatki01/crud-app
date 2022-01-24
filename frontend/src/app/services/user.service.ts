@@ -21,6 +21,11 @@ export class UserService extends BaseService<UserModel> {
     return this.http.post(`${environment.url_api}/users/auth`, { email, password });
   }
 
+  getRocketChatUserToken() {
+    return this.http.get(`${environment.url_api}/users/rockettoken`);
+  }
+
+
   configureLogin(o): void {
     const { token, user } = o.data;
     localStorage.setItem('bankconnector:token', token);

@@ -46,8 +46,6 @@ export class TransactionsComponent implements OnInit {
   dateFiltering(value){
     console.log('dateFilterEnd', value.form.value)
     this.bind(value.form.value.startDate, value.form.value.endDate);
-
-
   }
 
 
