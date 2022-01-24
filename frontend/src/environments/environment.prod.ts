@@ -1,4 +1,4 @@
 export const environment = {
   production: true,
-  url_api: 'http://localhost:21075'
+  url_api: 'https://api.lgrocket.ga'
 };
